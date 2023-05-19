@@ -26,7 +26,8 @@ namespace Transflo.Repository.Driver
                 if (driver != null)
                 {
                     using (var dbtransaction = await this._appDBContext.Database.BeginTransactionAsync())
-                    {
+                    {   
+                        //create instance of driver
                         var _newDriver = new TblDriver()
                         {
                              FirstName = driver.FirstName,
@@ -110,7 +111,6 @@ namespace Transflo.Repository.Driver
             }
             catch (Exception ex)
             {
-                //throw new Exception(ex.Message);
                 return new Response() { Result = "fail", KeyValue = string.Empty };
             }
         }
