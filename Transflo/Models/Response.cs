@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Transflo.Entity
+namespace Transflo.Models
 {
     public class Response
     {

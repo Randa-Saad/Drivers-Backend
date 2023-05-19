@@ -1,7 +1,4 @@
-using Transflo.Data;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using Transflo.Repository.Driver;
+using Transflo.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,28 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
-});
 
-builder.Services.AddTransient<IDriverRepository, DriverRepository>();
-var automapper = new MapperConfiguration(item => item.AddProfile(new MappingProfile()));
-IMapper mapper = automapper.CreateMapper();
-builder.Services.AddSingleton(mapper);
+builder.Services.AddScoped<Driver_DAL>();
 
-// add policy
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("http://localhost:4200")
-        .WithMethods("GET", "POST", "DELETE", "PUT")
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowAnyOrigin();
-    });
-});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

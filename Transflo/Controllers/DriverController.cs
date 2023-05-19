@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Transflo.Entity;
-using Transflo.Entity.Driver;
-using Transflo.Repository.Driver;
+using Transflo.DAL;
+using Transflo.Models;
 
 namespace Transflo.Controllers
 {
@@ -10,18 +9,18 @@ namespace Transflo.Controllers
     [ApiController]
     public class DriverController : ControllerBase
     {
-        private readonly IDriverRepository _Driver;
-        public DriverController(IDriverRepository Driver)
+        private readonly Driver_DAL _dal;
+        public DriverController(Driver_DAL dal)
         {
-            _Driver = Driver ?? throw new ArgumentNullException(nameof(Driver));
+            _dal = dal;
         }
        
         [HttpPost]
-        public async Task<Response> Add([FromBody] DriverEntity driver)
+        public async Task<Response> Add([FromBody] Driver driver)
         {
             try
             {
-                return await _Driver.Add(driver);
+                return await _dal.Add(driver);
             }
             catch (Exception ex)
             {
@@ -31,11 +30,19 @@ namespace Transflo.Controllers
         }
 
         [HttpPut]
-        public async Task<Response> Update([FromBody] DriverEntity driver)
+        public async Task<Response> Update([FromBody] Driver driver)
         {
             try
             {
-                return await _Driver.Update(driver);
+                Driver _driver = await _dal.GetById(driver.Id);
+                if(_driver == null)
+                {
+                    return new Response() { Result = "fail", KeyValue = "Driver Not Exist" };
+                }
+                else
+                {
+                    return await _dal.Update(driver);
+                }
             }
             catch(Exception ex) 
             {
@@ -49,7 +56,7 @@ namespace Transflo.Controllers
         {
             try
             {
-                return await _Driver.Remove(id);
+                return await _dal.Remove(id);
             }
             catch(Exception ex) 
             {
@@ -59,18 +66,19 @@ namespace Transflo.Controllers
 
 
         [HttpGet("GetAll")]
-        public async Task<List<DriverEntity>> GetAll()
+        public async Task<List<Driver>> GetAll()
         {
+            List<Driver> drivers = new List<Driver>();
             try
             {
-                var driverslist = await _Driver.Getall();
-                if (driverslist != null && driverslist.Count > 0)
+                drivers = _dal.GetAll();
+                if (drivers != null && drivers.Count > 0)
                 {
-                    return driverslist;
+                    return drivers;
                 }
                 else
                 {
-                    return new List<DriverEntity>();
+                    return new List<Driver>();
                 }
             }
             catch(Exception ex)
@@ -81,13 +89,21 @@ namespace Transflo.Controllers
         }
 
         [HttpGet("GetById")]
-        public async Task<DriverEntity> GetById(int id)
+        public async Task<Driver> GetById(int id)
         {
             try
             {
-                return await _Driver.GetById(id);
+                var data = await _dal.GetById(id);
+                if (data.Id == 0)
+                {
+                    throw new Exception("Driver Not Exist");
+                }
+                else
+                {
+                    return data;
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
