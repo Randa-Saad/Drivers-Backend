@@ -29,6 +29,26 @@ namespace Transflo.Controllers
            
         }
 
+        [HttpPost("AddBulk")]
+        public async Task<List<Response>> AddBulk([FromBody] Driver[] drivers)
+        {
+            try
+            {
+                List<Response> Responses = new List<Response>();
+                for (int d = 0; d <= drivers.Length; d++)
+                {
+                    Responses.Add(await _dal.Add(drivers[d]));
+                }
+
+                return Responses;
+            }
+            catch (Exception ex)
+            {
+                return new List<Response>() {new Response() { Result = "fail", KeyValue = ex.Message } };
+            }
+
+        }
+
         [HttpPut]
         public async Task<Response> Update([FromBody] Driver driver)
         {

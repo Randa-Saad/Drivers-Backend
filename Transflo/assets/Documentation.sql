@@ -1,22 +1,25 @@
 
+
 ----1--Create Database
 --CREATE DATABASE Transflo_DB;
+-----------------------------------------------------------------------------------------
+---2-- Select Database to use in below steps
 
 -----------------------------------------------------------------------------------------
-----2-- Create Table
+----3-- Create Table
 --CREATE TABLE Drivers (
 --    Id INT IDENTITY ,
---    FirstName nvarchar(20),
---    LastName nvarchar(20),
---    Email nvarchar(20),
---    PhoneNumber nvarchar(20),
---	PRIMARY KEY (Id)
+--    FirstName nvarchar(30),
+--    LastName nvarchar(30),
+--    Email nvarchar(30),
+--    PhoneNumber nvarchar(30),
+--	  PRIMARY KEY (Id)
 --);
 
 -----------------------------------------------------------------------------------------
-----3--Create Stored Procedures
----1--Stored Procedure: Get drivers
---Create PROC [DBO].[usp_Get_Drivers]
+----4--Create Stored Procedures
+----1--Stored Procedure: Get drivers
+--CREATE PROC [DBO].[usp_Get_Drivers]
 --AS
 --BEGIN
 --	SELECT Id,FirstName,LastName,Email,PhoneNumber from DBO.Drivers WITH (NOLOCK)
@@ -24,7 +27,7 @@
 
 --------------------------------------------------------
 
----2--Stored Procedure: Get driver by id
+----2--Stored Procedure: Get driver by id
 --CREATE PROC [DBO].[usp_Get_DriverById]
 --(
 --	@Id INT
@@ -37,7 +40,7 @@
 
 --------------------------------------------------------
 
----3--Stored Procedure: Insert driver
+----3--Stored Procedure: Insert driver
 --CREATE PROC [DBO].[usp_Insert_Driver]
 --(
 --@FirstName NVARCHAR(20),
@@ -67,7 +70,7 @@
 
 --------------------------------------------------------
 
----4--Stored Procedure: Update driver
+----4--Stored Procedure: Update driver
 --CREATE PROC [DBO].[usp_Update_Driver]
 --(
 --	@Id INT,
@@ -102,7 +105,7 @@
 
 --------------------------------------------------------
 
----5--Stored Procedure: Delete driver
+----5--Stored Procedure: Delete driver
 --CREATE PROC [DBO].[usp_Delete_Driver]
 --(
 --	@Id INT
@@ -126,5 +129,5 @@
 --	ROLLBACK TRAN
 --END CATCH
 --END
------------------------------------------------------------------------------------
 
+-----------------------------------------------------------------------------------

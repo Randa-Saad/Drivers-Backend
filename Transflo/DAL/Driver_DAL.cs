@@ -57,7 +57,7 @@ namespace Transflo.DAL
                 _command.Parameters.AddWithValue("@Email", model.Email);
                 _command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
                 _connection.Open();
-               id = _command.ExecuteNonQuery();
+                id = _command.ExecuteNonQuery();
                 _connection.Close();    
             }
             if (id > 0)
