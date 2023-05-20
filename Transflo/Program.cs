@@ -12,6 +12,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<Driver_DAL>();
 
+// add policy
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+        .WithMethods("GET", "POST", "DELETE", "PUT")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
